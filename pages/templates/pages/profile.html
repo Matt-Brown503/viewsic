@@ -1,0 +1,547 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+<script>
+    {% block jquery %}
+    let isplaying = false
+
+        var endpoint = '/api/chart/data/'
+        var values = []
+        var labels = []
+        var colors = []
+        var tscore = []
+        var ascore = []
+        $.ajax({
+            type: "GET",
+            url: endpoint,
+            success: function(data){
+                for (let key in data.genres[0]) {
+                    labels.push(data.genres[0][key].genre)
+                    values.push(data.genres[0][key].value)
+                    colors.push(data.genres[0][key].color)
+                }
+                tscore.push(data.tscore)
+                tscore.push(data.sitetscore)
+                ascore.push(data.ascore)
+                ascore.push(data.siteascore)
+
+                $('.artist-info').addClass(' load');
+                
+                setChart()
+                buildLegend()
+                $('.legend-item').click(function(event) {
+                    console.log('clicked')
+                    var text = $(event.target).text();
+                    submit(text)
+                });
+
+                popChart(tscore,'myChart1')
+                popChart(ascore,'myChart2')
+
+                document.getElementById('user-track-pop').innerHTML = data.tscore
+                document.getElementById('all-track-pop').innerHTML = data.sitetscore
+                document.getElementById('user-artist-pop').innerHTML = data.ascore
+                document.getElementById('all-artist-pop').innerHTML = data.siteascore
+
+                
+
+                let artistimg = document.getElementsByClassName("artist0")[0];
+                artistimg.src = data.artists[0]['artist0'].img;
+                let artistname = document.getElementsByClassName('artist0_name')[0];
+                artistname.innerHTML = data.artists[0]['artist0'].name;
+                let artistpop = document.getElementsByClassName('artist0_popularity')[0];
+                artistpop.innerHTML = data.artists[0]['artist0'].popularity;
+                let artistgenre = document.getElementsByClassName('artist_genre')[0];
+                artistgenre.innerHTML = data.artists[0]['artist0'].genre[0] + '<br />' + data.artists[0]['artist0'].genre[1];
+                let artistpreview0 = document.getElementsByClassName('audio')[0];
+                artistpreview0.src = data.artists[0]['artist0'].preview;
+
+                document.getElementsByClassName("artist-preview")[0].addEventListener("click", function(event) {
+                   event.preventDefault()
+                        for(i=0;i<document.getElementsByClassName("audio").length;i++) {
+                            document.getElementsByClassName("audio")[i].pause()
+                            document.getElementsByClassName("artist-preview")[i].classList.remove("playing")
+                        }
+
+                //    document.getElementsByClassName("audio")[1].pause()
+                //    document.getElementsByClassName("audio")[2].pause()
+                //    document.getElementsByClassName("audio")[3].pause()
+                //    document.getElementsByClassName("audio")[4].pause()
+                //    document.getElementsByClassName("audio")[5].pause()
+                //    document.getElementsByClassName("artist-preview")[1].classList.remove("playing")
+                //    document.getElementsByClassName("artist-preview")[2].classList.remove("playing")
+                //    document.getElementsByClassName("artist-preview")[3].classList.remove("playing")
+                //    document.getElementsByClassName("artist-preview")[4].classList.remove("playing")
+                //    document.getElementsByClassName("artist-preview")[5].classList.remove("playing")
+
+                   document.getElementsByClassName("artist-preview")[0].classList.toggle("playing")
+                    var audio = document.getElementsByClassName("audio")[0];
+                        return audio.paused ? audio.play() : audio.pause();
+                 })
+
+                let artist1img = document.getElementsByClassName("artist1")[0];
+                artist1img.src = data.artists[0]['artist1'].img;
+                let artist1name = document.getElementsByClassName('artist1_name')[0];
+                artist1name.innerHTML = data.artists[0]['artist1'].name;
+                let artist1pop = document.getElementsByClassName('artist1_popularity')[0];
+                artist1pop.innerHTML = data.artists[0]['artist1'].popularity;
+                let artistgenre1 = document.getElementsByClassName('artist_genre')[1];
+                artistgenre1.innerHTML = data.artists[0]['artist1'].genre[0] + '<br />' + data.artists[0]['artist1'].genre[1];
+                let artistpreview1 = document.getElementsByClassName('audio')[1];
+                artistpreview1.src = data.artists[0]['artist1'].preview;
+
+                document.getElementsByClassName("artist-preview")[1].addEventListener("click", function(event) {
+                    event.preventDefault()
+                    document.getElementsByClassName("audio")[0].pause()
+                    document.getElementsByClassName("audio")[2].pause()
+                    document.getElementsByClassName("audio")[3].pause()
+                    document.getElementsByClassName("audio")[4].pause()
+                    document.getElementsByClassName("audio")[5].pause()
+                    document.getElementsByClassName("artist-preview")[0].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[2].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[3].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[4].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[5].classList.remove("playing")
+
+                    document.getElementsByClassName("artist-preview")[1].classList.toggle("playing")
+                     var audio = document.getElementsByClassName("audio")[1];
+                         return audio.paused ? audio.play() : audio.pause();
+                  })
+                  
+                
+
+                let artist2img = document.getElementsByClassName("artist2")[0];
+                artist2img.src = data.artists[0]['artist2'].img;
+                let artist2name = document.getElementsByClassName('artist2_name')[0];
+                artist2name.innerHTML = data.artists[0]['artist2'].name;
+                let artist2pop = document.getElementsByClassName('artist2_popularity')[0];
+                artist2pop.innerHTML = data.artists[0]['artist2'].popularity;
+                let artistgenre2 = document.getElementsByClassName('artist_genre')[2];
+                artistgenre2.innerHTML = data.artists[0]['artist2'].genre[0] + '<br />' + data.artists[0]['artist2'].genre[1];
+                let artistpreview2 = document.getElementsByClassName('audio')[2];
+                artistpreview2.src = data.artists[0]['artist2'].preview;
+
+                document.getElementsByClassName("artist-preview")[2].addEventListener("click", function(event) {
+                    event.preventDefault()
+                    document.getElementsByClassName("audio")[0].pause()
+                    document.getElementsByClassName("audio")[1].pause()
+                    document.getElementsByClassName("audio")[3].pause()
+                    document.getElementsByClassName("audio")[4].pause()
+                    document.getElementsByClassName("audio")[5].pause()
+                    document.getElementsByClassName("artist-preview")[0].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[1].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[3].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[4].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[5].classList.remove("playing")
+
+                    document.getElementsByClassName("artist-preview")[2].classList.toggle("playing")
+                     var audio = document.getElementsByClassName("audio")[2];
+                         return audio.paused ? audio.play() : audio.pause();
+                  })
+
+                let track0 = document.getElementsByClassName("track0")[0];
+                track0.src = data.tracks[0]['track0'].img;
+                let track0name = document.getElementsByClassName('track0_name')[0];
+                track0name.innerHTML = data.tracks[0]['track0'].name;
+                let track0pop = document.getElementsByClassName('track0_popularity')[0];
+                track0pop.innerHTML = data.tracks[0]['track0'].popularity;
+                let track0artist = document.getElementsByClassName('track_artist')[0];
+                track0artist.innerHTML = data.tracks[0]['track0'].artist
+                let trackpreview0 = document.getElementsByClassName('audio')[3];
+                trackpreview0.src = data.tracks[0]['track0'].preview;
+
+                document.getElementsByClassName("artist-preview")[3].addEventListener("click", function(event) {
+                    event.preventDefault()
+                    document.getElementsByClassName("audio")[0].pause()
+                    document.getElementsByClassName("audio")[1].pause()
+                    document.getElementsByClassName("audio")[2].pause()
+                    document.getElementsByClassName("audio")[4].pause()
+                    document.getElementsByClassName("audio")[5].pause()
+                    document.getElementsByClassName("artist-preview")[0].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[1].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[2].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[4].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[5].classList.remove("playing")
+
+                    document.getElementsByClassName("artist-preview")[3].classList.toggle("playing")
+                     var audio = document.getElementsByClassName("audio")[3];
+                         return audio.paused ? audio.play() : audio.pause();
+                  })
+
+                  let track1 = document.getElementsByClassName("track1")[0];
+                track1.src = data.tracks[0]['track1'].img;
+                let track1name = document.getElementsByClassName('track1_name')[0];
+                track1name.innerHTML = data.tracks[0]['track1'].name;
+                let track1pop = document.getElementsByClassName('track1_popularity')[0];
+                track1pop.innerHTML = data.tracks[0]['track1'].popularity;
+                let track1artist = document.getElementsByClassName('track_artist')[1];
+                track1artist.innerHTML = data.tracks[0]['track1'].artist
+                let trackpreview1 = document.getElementsByClassName('audio')[4];
+                trackpreview1.src = data.tracks[0]['track1'].preview;
+
+                document.getElementsByClassName("artist-preview")[4].addEventListener("click", function(event) {
+                    event.preventDefault()
+                    document.getElementsByClassName("audio")[0].pause()
+                    document.getElementsByClassName("audio")[1].pause()
+                    document.getElementsByClassName("audio")[2].pause()
+                    document.getElementsByClassName("audio")[3].pause()
+                    document.getElementsByClassName("audio")[5].pause()
+                    document.getElementsByClassName("artist-preview")[0].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[1].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[2].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[3].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[5].classList.remove("playing")
+
+                    document.getElementsByClassName("artist-preview")[4].classList.toggle("playing")
+                     var audio = document.getElementsByClassName("audio")[4];
+                         return audio.paused ? audio.play() : audio.pause();
+                  })
+
+                let track2 = document.getElementsByClassName("track2")[0];
+                track2.src = data.tracks[0]['track2'].img;
+                let track2name = document.getElementsByClassName('track2_name')[0];
+                track2name.innerHTML = data.tracks[0]['track2'].name;
+                let track2pop = document.getElementsByClassName('track2_popularity')[0];
+                track2pop.innerHTML = data.tracks[0]['track2'].popularity;
+                let track2artist = document.getElementsByClassName('track_artist')[2];
+                track2artist.innerHTML = data.tracks[0]['track2'].artist
+                let trackpreview2 = document.getElementsByClassName('audio')[5];
+                trackpreview2.src = data.tracks[0]['track2'].preview;
+
+                document.getElementsByClassName("artist-preview")[5].addEventListener("click", function(event) {
+                    event.preventDefault()
+                    document.getElementsByClassName("audio")[0].pause()
+                    document.getElementsByClassName("audio")[1].pause()
+                    document.getElementsByClassName("audio")[2].pause()
+                    document.getElementsByClassName("audio")[3].pause()
+                    document.getElementsByClassName("audio")[4].pause()
+                    document.getElementsByClassName("artist-preview")[0].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[1].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[2].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[3].classList.remove("playing")
+                    document.getElementsByClassName("artist-preview")[4].classList.remove("playing")
+
+                    document.getElementsByClassName("artist-preview")[5].classList.toggle("playing")
+                     var audio = document.getElementsByClassName("audio")[5];
+                         return audio.paused ? audio.play() : audio.pause();
+                  })
+
+                
+                    setTimeout(function(){
+                        $('.artist_img').addClass('a-load');; 
+                        }, 100);
+                    
+                  
+                console.log(labels)
+
+            },
+            error: function(error_data){
+                console.log('error')
+                console.log(error_data)
+            }
+        });
+    
+    function setChart(){
+        var ctx = document.getElementById("myChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '',
+                            data: values,
+                            backgroundColor: colors,
+                 borderColor: [
+                     '#333',
+                     '#333',
+                 ],
+                 borderWidth: 0,
+             }]
+         },
+         options: {
+            cutoutPercentage: 60,
+             legend: {
+                 display: false,
+             },
+         }
+     });
+    };
+
+    function popChart(score,chart){
+        var ctx = document.getElementById(chart).getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Your Score', 'User Average'],
+                        datasets: [{
+                            label: '',
+                            data: score,
+                            backgroundColor: ['#00adb5', '#013f42'],
+                 borderColor: [
+                     '#333',
+                 ],
+                 borderWidth: 0,
+             }]
+         },
+         options: {
+            cutoutPercentage: 60,
+            rotation: 1 * Math.PI,
+            circumference: 1 * Math.PI,
+             legend: {
+                 display: false,
+             }
+            
+         }
+     });
+    };
+    function setChart2(){
+        var ctx = document.getElementById("myChart1").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Your Score', 'User Average'],
+                        datasets: [{
+                            label: '',
+                            data: tscore,
+                            backgroundColor: ['#02d9e3', '#013f42'],
+                 borderColor: [
+                     '#333',
+                 ],
+                 borderWidth: 0,
+             }]
+         },
+         options: {
+            cutoutPercentage: 60,
+            rotation: 1 * Math.PI,
+            circumference: 1 * Math.PI,
+             legend: {
+                 display: false,
+             }
+            
+         }
+     });
+    };
+
+    function buildLegend(){
+    let legendData = '';
+    let trans = [.9,.85,.8,.75,.7,.65,.6,.55,.5,.45,.4,.35,.3,.25,.2,.15,.1,]
+    for (i=0;i<labels.length;i++){
+        legendData += '<li class="legend-item" data-toggle="modal" data-target="#exampleModal" style="transition: '+trans[i]+'s; background-color:' + colors[i] + '">' + labels[i] + '</li>';
+    }
+    let ulData = '<ul>'+legendData+'</ul>';
+    document.getElementById('chart-legend-0').innerHTML = ulData    
+    };
+
+    
+
+    function submit(text){	
+    var results = '';
+    var userinput = ''
+    if (text === 'pop') {
+        userinput += 'pop music'
+    }else if (text === 'rock') {
+        userinput += 'rock music'
+    }else if (text === 'r&b'){
+        userinput += 'rhythm and blues'
+    }else {
+        userinput += text
+    }
+    var wikiAPI = 'https://en.wikipedia.org/w/api.php?action=opensearch&search='+userinput+'&limit=5&namespace=0&format=json&callback=?';
+    $.ajax({
+        type:"GET",
+        url:wikiAPI,
+        async:false,
+        dataType: 'json',
+        success: function(data){
+            results = 'No information available for this genre.'
+            external = ''
+            console.log(data)
+            for (i=0;i<data[2].length;i++){
+                if (data[2][i].length === 0) {
+                    results = 'No information available for this genre.'
+                    $('#external').attr('href', external);
+                    $('#external').html('')
+                }
+                else if (data[2][i].includes('music') === true || data[2][i].includes('genre') === true){
+                    results = data[2][i]
+                    external = data[3][i]
+                    $('#external').attr('href', external);
+                    $('#external').html('Learn More')
+                    break
+
+                }else if (data[2][i].includes('style') === true || data[2][i].includes('radio') === true){
+                    results = data[2][i]
+                    external = data[3][i]
+                    $('#external').attr('href', external);
+                    $('#external').html('Learn More')
+                    break
+                }else {
+                    $('#external').attr('href', external);
+                    $('#external').html('')
+                }
+            }
+            $('#exampleModalLabel').html(text)
+            $('#results').html(results);
+            
+        }
+    })
+}
+    {% endblock %}
+</script>
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'pages/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include 'pages/profile-nav.html' %}
+<div class="page-content">
+    <div class="container-fluid top-artists">
+            <div class="container">
+                    <h1>TOP ARTISTS</h1>
+                    <h2>BASED ON LONG TERM LISTENING HISTORY</h2>
+                    <div class="underline"></div>
+                <div class="row">
+                <div class="col-md-4">
+                        <div class="content">
+                            <img class='artist0 artist_img' src="" alt="">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist0_name artist_name"></h3>
+                            <h4 class="artist_genre">Genre</h4>
+                            <p class="popularity">Popularity: <span class="artist0_popularity pop-value"></span></p>
+                            <a class="artist-preview paused" href=""></a>
+                        </div>
+                        <audio class='audio' src="" ></audio>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="content">
+                            <img class='artist1 artist_img' src="" alt="">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist1_name artist_name"></h3>
+                            <h4 class="artist_genre">Genre</h4>
+                            <p class="popularity">Popularity: <span class="artist1_popularity pop-value"></span></p>
+                            <a class="artist-preview paused" href=""></a>
+                            <audio class='audio' src="" ></audio>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="content">
+                            <img class='artist2 artist_img' src="" alt="">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist2_name artist_name"></h3>
+                            <h4 class="artist_genre">Genre</h4>
+                            <p class="popularity">Popularity: <span class="artist2_popularity pop-value"></span></p>
+                            <a class="artist-preview paused" href=""></a>
+                            <audio class='audio' src="" ></audio>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container genres">
+                <h1>TOP GENRES</h1>
+                <h2>BASED ON YOUR TOP 50 SONGS</h2>
+                <div class="underline"></div>
+            <div class="row">
+                    <div class="col-md-6">
+                            <div id="chart-legend-0">
+                            </div>
+                        </div>
+                <div class="col-md-6">
+                    <canvas id="myChart" width="300" height="300">
+                    </canvas>
+                </div>
+            </div>    
+         </div>
+         <div class="container tracks">
+                <h1>TOP SONGS</h1>
+                <h2>BASED ON RECENT LISTENING</h2>
+                <div class="underline"></div>
+            <div class="row">
+            <div class="col-md-4">
+                    <div class="content">
+                        <img class='track0 artist_img' src="" alt="">
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="track0_name artist_name"></h3>
+                        <h4 class="track_artist artist_genre"></h4>
+                        <p class="popularity">Popularity: <span class="track0_popularity pop-value"></span></p>
+                        <a class="artist-preview paused" href=""></a>
+                    </div>
+                    <audio class='audio' src="" ></audio>
+                </div>
+                <div class="col-md-4">
+                    <div class="content">
+                        <img class='track1 artist_img' src="" alt="">
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="track1_name artist_name"></h3>
+                        <h4 class="track_artist artist_genre">Open in Spotify</h4>
+                        <p class="popularity">Popularity: <span class="track1_popularity pop-value"></span></p>
+                        <a class="artist-preview paused" href=""></a>
+                    </div>
+                    <audio class='audio' src="" ></audio>
+                </div>
+                <div class="col-md-4">
+                    <div class="content">
+                        <img class='track2 artist_img' src="" alt="">
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="track2_name artist_name"></h3>
+                        <h4 class="track_artist artist_genre">Open in Spotify</h4>
+                        <p class="popularity">Popularity: <span class="track2_popularity pop-value"></span></p>
+                        <a class="artist-preview paused" href=""></a>
+                    </div>
+                    <audio class='audio' src="" ></audio>
+                </div>
+            </div>
+        </div>
+        <div class="container pop">
+            <h1>MUSIC POPULARITY</h1>
+            <h2>BASED ON YOUR TOP 50 SONGS</h2>
+            <div class="underline"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Songs</h3>
+                <canvas id="myChart1" width="300" height="300">
+                </canvas>
+                <div class="pop-info">
+                    <p class="user-t-pop">Your Score: <span id="user-track-pop"></span></p>
+                    <p class="all-t-pop">Avg Score: <span id="all-track-pop"></span></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Artists</h3>
+                <canvas id="myChart2" width="300" height="300">
+                </canvas>
+                <div class="pop-info">
+                    <p class="user-a-pop">Your Score: <span id="user-artist-pop"></span></p>
+                    <p class="all-a-pop">Avg Score: <span id="all-artist-pop"></span></p>
+                </div>
+            </div>
+        </div>    
+    </div>      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="results">
+              ...
+            </div>
+            <div class="modal-footer">
+                    <a id="external" target="_blank" href=""></a>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

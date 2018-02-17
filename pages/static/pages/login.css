@@ -1,0 +1,54 @@
+{% load static %}
+.landing {
+    background-image: url("/static/pages/img/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: #fff;
+    font-family: 'Montserrat';
+}
+
+.landing:before {
+    content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: linear-gradient(to top,black,transparent);
+	opacity: .9; 
+}
+
+.landing .container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    text-align: center;
+}
+
+.header a {
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 45px;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+    transition: .5s;
+}
+
+.header a:hover {
+    background-color: rgba(0, 0, 0, .8);
+    transition: .5s;
+}
+.header form {
+    padding-right: 50px;
+}
+
+.bg-faded {
+    background-color: transparent;
+}
+

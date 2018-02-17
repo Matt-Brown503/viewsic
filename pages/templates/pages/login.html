@@ -1,0 +1,28 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'pages/login.css' %}">
+{% endblock %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% include 'pages/nav.html' %}
+
+<div class="landing">
+  <div class="container">
+    <div class="header">
+      <h1>YOUR MUSIC VISUALIZED</h1>
+      <p>Viewsic uses your Spotify library to visualize your taste
+          in music with charts and graphs</p>
+        <form method="post">
+          {% csrf_token %}
+          <a href="{% url 'social:begin' 'spotify' %}">Login with Spotify</a>
+          <a href="#">See Example</a>
+        </form>      
+    </div>
+  </div>
+    
+</div>
+
+
+{% endblock %}

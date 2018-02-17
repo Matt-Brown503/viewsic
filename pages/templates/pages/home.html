@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+        <h2>Homepage</h2>
+        <p>Hello {{ user.first_name }} {{ user.last_name }}!</p>
+        <a href="{% url 'logout' %}">logout</a>
+    <article id="main">
+        <a href="{% url 'profile' %}">Sign In</a>
+    </article>
+</div>
+</body>
+</html>

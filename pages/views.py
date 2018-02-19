@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 import spotipy
 import spotipy.util as util
 from spotipy import oauth2
@@ -46,12 +46,14 @@ def save_tracks(data, user, artist):
     track_id = data['id'],
     album_art = data['album']['images'][0]['url'],
     track_url = data['external_urls']['spotify'],
-    popularity = data['popularity'],
     preview_url=data['preview_url'],
+    defaults={
+        'popularity': data['popularity']
+        }
     )
 
     # if created:
-    #     print('new entry')
+
     # else:
     #     print('found')
     
@@ -59,6 +61,17 @@ def save_tracks(data, user, artist):
     track=track,
     user=user
     )
+    
+
+def update_track(data):
+    track, created = Track.objects.update_or_create(
+track_id=data['id'],
+defaults={
+    'danceability': data['danceability'],
+    'valence': data['valence'],
+    'duration': data['duration_ms'],
+    }
+)
 
 def save_artist(data):
     artist, created = Artist.objects.update_or_create(
@@ -76,10 +89,6 @@ def update_artist(data, genre):
         'popularity': data['popularity'],
         }
     )
-    print(data['name'])
-    print(data['images'][0]['url'])
-    print(data['popularity'])
-    print('')
     artist.genre.add(genre)
     artist.save()
 
@@ -182,11 +191,33 @@ def artist_avg(data):
         total += int(trackid.track.artist.popularity)
     total = total // len(data)
     print('artist avg:')
+    print(total)
+    return total
+
+def danceability_avg(data):
+    total = 0
+    for trackid in data: 
+        total += float(trackid.track.danceability)
+    
+    total = total / len(data)
+    print('dance avg:')
+    print(total)
+    return total
+
+def valence_avg(data):
+    total = 0
+    for trackid in data: 
+        total += float(trackid.track.valence)
+    total = total / len(data)
+    print('valence avg:')
+    print(total)
     return total
 
 def update_user_avg(data, request):
     request.user.track_score = track_avg(data)
     request.user.artist_score = artist_avg(data)
+    request.user.danceability_score = danceability_avg(data)
+    request.user.valence_score = valence_avg(data)
     request.user.save()
 
 def all_user_track_avg(data):
@@ -216,11 +247,16 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 600:
+    if not difference or difference.seconds > 5:
         
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data
-        sp = spotipy.Spotify(auth=token['access_token'])
+
+        try:
+            sp = spotipy.Spotify(auth=token['access_token'])
+        except spotipy.client.SpotifyException:
+            redirect('/')
+
         user_top = sp.current_user_top_tracks(limit=50, time_range='long_term')
         user_info = sp.current_user()
         
@@ -230,15 +266,17 @@ def profile(request):
         for data in user_top['items']:
             artist = save_artist(data)
             save_tracks(data, request.user, artist)
-            print('track saved')
+            # print('track saved')
         
         #appending artist id to query for artist data + genre info
         artist_info = []
+        track_info = []
         for trackid in all_user_tracks:
+            track_info.append(trackid.track.track_id)
             artist_info.append(trackid.track.artist.artist_id)
-            print(trackid.track.artist.name)
-            print('artist info appended')
-            print('')
+            # print(trackid.track.artist.name)
+            # print('artist info appended')
+            print(track_info)
             
             #updates artist info and genre info
         myset = list(set(artist_info)) 
@@ -248,9 +286,14 @@ def profile(request):
                 genre = make_genre(entry)
                 update_artist(content,genre)
             update_artist_no_genre(content)
-            print('genre info added to artist')
+            # print('genre info added to artist')
         request.user.last_request = timezone.now()
         request.user.save()
+
+        track_details = sp.audio_features(track_info)
+        for song in track_details:
+            update_track(song)
+
 
     return render(request, 'pages/profile.html',)
 
@@ -265,8 +308,8 @@ class ChartData(APIView):
 
     def get(self, request, format=None):
         data = request.user.tracks.all()
+        allusers = User.objects.all()
         update_user_avg(data, request)
-        allusers = User.objects.all()      
         
         print(request.user.track_score)
 
@@ -277,6 +320,8 @@ class ChartData(APIView):
             'tscore': request.user.track_score,
             'ascore': request.user.artist_score,
             'sitetscore': all_user_track_avg(allusers),
-            'siteascore': all_user_artist_avg(allusers)
+            'siteascore': all_user_artist_avg(allusers),
+            'danceability': request.user.danceability_score,
+            'valence': request.user.valence_score
         }
         return Response(page_data)

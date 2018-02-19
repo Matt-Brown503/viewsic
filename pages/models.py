@@ -11,6 +11,8 @@ class User(AbstractUser):
     last_request = models.DateTimeField(null=True, blank=True)
     track_score = models.CharField(max_length=255)
     artist_score = models.CharField(max_length=255)
+    danceability_score = models.CharField(max_length=255)
+    valence_score = models.CharField(max_length=255)
 
 
 class Track(models.Model):
@@ -22,6 +24,9 @@ class Track(models.Model):
     track_url = models.CharField(max_length=255)
     popularity = models.CharField(max_length=255)
     preview_url = models.CharField(max_length=255)
+    danceability = models.CharField(max_length=255)
+    valence = models.CharField(max_length=255)
+    duration = models.CharField(max_length=255)
 
 class Genre(models.Model):
     genre = models.CharField(max_length=255)

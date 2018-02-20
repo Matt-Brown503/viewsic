@@ -30,8 +30,13 @@ def update_user_info(user_data, request):
         userimg = user_data['images'][0]['url']
     except IndexError:
         userimg = ''
+    
+    try:
+        display_name = user_data['display_name']
+    except IntegrityError:
+        display_name = user_data['id']
 
-    request.user.username = user_data['display_name']
+    request.user.username = display_name
     request.user.user_img = userimg
     request.user.user_id = user_data['id']
     request.user.birthdate = user_data['birthdate']
@@ -279,7 +284,7 @@ def profile(request):
             print(track_info)
             
             #updates artist info and genre info
-        myset = list(set(artist_info)) 
+        myset = list(set(artist_info))
         a_data = sp.artists(myset)
         for content in a_data['artists']:
             for entry in content['genres']:
@@ -287,12 +292,13 @@ def profile(request):
                 update_artist(content,genre)
             update_artist_no_genre(content)
             # print('genre info added to artist')
-        request.user.last_request = timezone.now()
-        request.user.save()
 
         track_details = sp.audio_features(track_info)
         for song in track_details:
             update_track(song)
+
+        request.user.last_request = timezone.now()
+        request.user.save()
 
 
     return render(request, 'pages/profile.html',)

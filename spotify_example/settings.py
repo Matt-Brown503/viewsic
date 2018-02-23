@@ -158,5 +158,4 @@ AUTH_USER_MODEL = 'pages.User'
 
 SOCIAL_AUTH_SPOTIFY_KEY = 'b7bcf47cb6f246deae87280dc75f530d'
 SOCIAL_AUTH_SPOTIFY_SECRET = '7286c24d1a6e4d0d8e74f6846532318d'
-SOCIAL_AUTH_SPOTIFY_SCOPE = ['user-library-read user-read-birthdate user-read-email user-top-read user-read-recently-played playlist-read-private']
-# SPOTIPY_REDIRECT_URI = 'http://localhost:8000/profile/'
+SOCIAL_AUTH_SPOTIFY_SCOPE = ['user-top-read user-read-birthdate user-read-email']

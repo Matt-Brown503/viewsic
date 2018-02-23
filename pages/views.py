@@ -26,30 +26,29 @@ def home(request):
 
 
 def update_user_info(user_data, request):
-    try:
-        userimg = user_data['images'][0]['url']
-    except IndexError:
-        userimg = ''
+    # try:
+    #     userimg = user_data['images'][0]['url']
+    # except IndexError:
+    #     userimg = ''
     
-    try:
-        display_name = user_data['display_name']
-    except IntegrityError:
-        display_name = user_data['id']
+    # try:
+    #     display_name = user_data['display_name']
+    # except IntegrityError:
+    #     display_name = user_data['id']
 
-    request.user.username = display_name
-    request.user.user_img = userimg
+    request.user.username = user_data['display_name'] or user_data['id']
+    request.user.user_img = user_data['images'][0]['url'] or 'http://via.placeholder.com/300x300'
     request.user.user_id = user_data['id']
     request.user.birthdate = user_data['birthdate']
     request.user.save()
 
-    print('running!')
 def save_tracks(data, user, artist):
     track, created = Track.objects.update_or_create(
     name = data['name'],
     artist = artist,
     album = data['album']['name'],
     track_id = data['id'],
-    album_art = data['album']['images'][0]['url'],
+    album_art = data['album']['images'][1]['url'],
     track_url = data['external_urls']['spotify'],
     preview_url=data['preview_url'],
     defaults={
@@ -90,7 +89,7 @@ def update_artist(data, genre):
     artist, created = Artist.objects.update_or_create(
     name=data['name'],
     defaults={
-        'artist_img': data['images'][0]['url'],
+        'artist_img': data['images'][1]['url'],
         'popularity': data['popularity'],
         }
     )
@@ -99,7 +98,7 @@ def update_artist(data, genre):
 
 def update_artist_no_genre(data):
     try:
-        userimg = data['images'][0]['url']
+        userimg = data['images'][1]['url']
     except IndexError:
         userimg = ''
     artist, created = Artist.objects.update_or_create(
@@ -126,11 +125,10 @@ def collect_top_artists(data):
     #top artists and counts
     count = 0
     for i in artist_count:
-        print (i[0])
         a_id = str(Artist.objects.filter(name=i[0])[0].id)
         top_artists['artist{}'.format(count)] = {}
         top_artists['artist{}'.format(count)]['name'] = i[0]
-        top_artists['artist{}'.format(count)]['img'] = Artist.objects.filter(name=i[0])[0].artist_img
+        top_artists['artist{}'.format(count)]['img'] = Artist.objects.filter(name=i[0])[0].artist_img or 'http://via.placeholder.com/300x300'
         top_artists['artist{}'.format(count)]['url'] = Artist.objects.filter(name=i[0])[0].artist_url
         top_artists['artist{}'.format(count)]['popularity'] = Artist.objects.filter(name=i[0])[0].popularity
         genres = []
@@ -149,8 +147,8 @@ def colorPicker(fcolor, lcolor, count):
             color_list = list(start.range_to(Color(lcolor), count))
             return color_list
 
-def collect_genre_data(data):
-    genre_data = []
+def collect_genre_data(data,user):
+    genre_data = [] 
     top_genres = {}
     for trackid in data:
         for genre in trackid.track.artist.genre.all():
@@ -158,13 +156,17 @@ def collect_genre_data(data):
     user_genre_count = Counter(genre_data).most_common(15)
     #top genres and counts
     count = 0
-    colors = colorPicker('#02d9e3', '#013f42', 15)
+    colors = colorPicker('#222831', '#02d9e3', 15)
     for i in user_genre_count:
         top_genres['genre{}'.format(count)] = {}
         top_genres['genre{}'.format(count)]['genre'] = '{}'.format(i[0])
         top_genres['genre{}'.format(count)]['value'] = i[1]
         top_genres['genre{}'.format(count)]['color'] = '{}'.format(colors[count])
         count += 1
+    
+    # save unique genres
+    user.genre_count = len(set(genre_data))
+    user.save()
     return top_genres
 
 def collect_track_info(data):
@@ -221,7 +223,7 @@ def valence_avg(data):
 def update_user_avg(data, request):
     request.user.track_score = track_avg(data)
     request.user.artist_score = artist_avg(data)
-    request.user.danceability_score = danceability_avg(data)
+    request.user.dance_score = danceability_avg(data)
     request.user.valence_score = valence_avg(data)
     request.user.save()
 
@@ -237,6 +239,19 @@ def all_user_artist_avg(data):
     for user in data:
         total += int(user.artist_score)
     total = total // len(data)
+    return total
+def all_user_dance_score(data):
+            total = 0
+            for user in data:
+                total += float(user.dance_score)
+            total = total / len(data)
+            return total
+        
+def all_user_valence_score(data):
+    total = 0
+    for user in data:
+        total += float(user.valence_score)
+    total = total / len(data)
     return total
 
 def profile(request):
@@ -281,7 +296,7 @@ def profile(request):
             artist_info.append(trackid.track.artist.artist_id)
             # print(trackid.track.artist.name)
             # print('artist info appended')
-            print(track_info)
+           
             
             #updates artist info and genre info
         myset = list(set(artist_info))
@@ -316,18 +331,23 @@ class ChartData(APIView):
         data = request.user.tracks.all()
         allusers = User.objects.all()
         update_user_avg(data, request)
+
         
-        print(request.user.track_score)
+        
+     
 
         page_data = {
             'artists': [collect_top_artists(data)],
-            'genres': [collect_genre_data(data)],
+            'genres': [collect_genre_data(data,request.user)],
             'tracks': [collect_track_info(data)],
-            'tscore': request.user.track_score,
-            'ascore': request.user.artist_score,
-            'sitetscore': all_user_track_avg(allusers),
-            'siteascore': all_user_artist_avg(allusers),
-            'danceability': request.user.danceability_score,
-            'valence': request.user.valence_score
+            'track_score': request.user.track_score,
+            'artist_score': request.user.artist_score,
+            'track_avg': all_user_track_avg(allusers),
+            'artist_avg': all_user_artist_avg(allusers),
+            'dance_score': request.user.dance_score,
+            'dance_avg': all_user_dance_score(allusers),
+            'valence_score': request.user.valence_score,
+            'valence_avg': all_user_valence_score(allusers),
+            'genre_score': request.user.genre_count       
         }
         return Response(page_data)

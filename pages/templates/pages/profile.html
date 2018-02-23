@@ -10,8 +10,10 @@
         var colors = []
         var tscore = []
         var ascore = []
-        var danceability = 0
-        var valence = 0
+        var dance_score = 0
+        var valence_score = 0
+        var dance_avg = 0
+        var valence_avg = 0
         $.ajax({
             type: "GET",
             url: endpoint,
@@ -21,10 +23,15 @@
                     values.push(data.genres[0][key].value)
                     colors.push(data.genres[0][key].color)
                 }
-                tscore.push(data.tscore)
-                tscore.push(data.sitetscore)
-                ascore.push(data.ascore)
-                ascore.push(data.siteascore)
+                tscore.push(data.track_score)
+                tscore.push(data.track_avg)
+                ascore.push(data.artist_score)
+                ascore.push(data.artist_avg)
+                dance_score += data.dance_score*10
+                valence_score += data.valence_score*10
+                $('.unique-val').text(data.genre_score)
+                dance_avg += data.dance_avg*10
+                valence_avg += data.valence_avg*10
                 
                 aDataString = ''
                 count = 0
@@ -67,7 +74,7 @@
                         $(className).click(function(){
                             $('.runner-up-name').text(artistInfo[index]);
                             $('.runner-up-preview').attr('href', artistPreview[index])
-                            // $('.runner-up-preview').text(artistPreview[index])
+                          
                             $('.audio-test').attr('src', artistPreview[index])  
                     })
                 }
@@ -76,7 +83,7 @@
                         $(className).click(function(){
                             $('.track-up-name').text(trackInfo[index]);
                             $('.track-up-preview').attr('href', trackPreview[index])
-                            $('.track-up-preview').text(trackPreview[index])
+                         
                             $('.audio-test').attr('src', trackPreview[index])  
                     })
                 }
@@ -99,14 +106,12 @@
                          return audio.paused ? audio.play() : audio.pause();
                   })
 
-                let mystring = data.danceability*10
-                mystring = mystring.toFixed(2)
 
                 danceability = (data.danceability*10).toFixed(1)
                 valence = (data.valence*10).toFixed(1)
 
-                document.getElementsByClassName('user-valence')[0].innerHTML = valence
-                document.getElementsByClassName('user-danceability')[0].innerHTML = danceability
+                document.getElementsByClassName('user-valence')[0].innerHTML = valence_score
+                document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score
 
                 $('.user-danceability').each(function () {
                     $(this).prop('Counter',0).animate({
@@ -151,6 +156,7 @@
                         setChart()
                         $('#myChart').addClass('loaded')
                         $('.legend-item').addClass('revealed')
+                        $('.unique-genres').addClass('revealed')
                     }
                 })
                 $(window).scroll(function(){
@@ -163,10 +169,10 @@
                     }
                 })
     
-                document.getElementById('user-track-pop').innerHTML = data.tscore
-                document.getElementById('all-track-pop').innerHTML = data.sitetscore
-                document.getElementById('user-artist-pop').innerHTML = data.ascore
-                document.getElementById('all-artist-pop').innerHTML = data.siteascore
+                document.getElementById('user-track-pop').innerHTML = data.track_score
+                document.getElementById('all-track-pop').innerHTML = data.track_avg
+                document.getElementById('user-artist-pop').innerHTML = data.artist_score
+                document.getElementById('all-artist-pop').innerHTML = data.artist_avg
 
 
 
@@ -179,7 +185,7 @@
                 let artistpop = document.getElementsByClassName('artist0_popularity')[0];
                 artistpop.innerHTML = data.artists[0]['artist0'].popularity;
                 let artistgenre = document.getElementsByClassName('artist_genre')[0];
-                artistgenre.innerHTML = data.artists[0]['artist0'].genre[0] + '<br />' + data.artists[0]['artist0'].genre[1];
+                artistgenre.innerHTML = data.artists[0]['artist0'].genre[0];
 
               
                 let artist1img = document.getElementsByClassName("artist1")[0];
@@ -189,7 +195,7 @@
                 let artist1pop = document.getElementsByClassName('artist1_popularity')[0];
                 artist1pop.innerHTML = data.artists[0]['artist1'].popularity;
                 let artistgenre1 = document.getElementsByClassName('artist_genre')[1];
-                artistgenre1.innerHTML = data.artists[0]['artist1'].genre[0] + '<br />' + data.artists[0]['artist1'].genre[1];
+                artistgenre1.innerHTML = data.artists[0]['artist1'].genre[0]
             
                   
                 let artist2img = document.getElementsByClassName("artist2")[0];
@@ -199,7 +205,7 @@
                 let artist2pop = document.getElementsByClassName('artist2_popularity')[0];
                 artist2pop.innerHTML = data.artists[0]['artist2'].popularity;
                 let artistgenre2 = document.getElementsByClassName('artist_genre')[2];
-                artistgenre2.innerHTML = data.artists[0]['artist2'].genre[0] + '<br />' + data.artists[0]['artist2'].genre[1];
+                artistgenre2.innerHTML = data.artists[0]['artist2'].genre[0]
 
                 function artistClick(className,artist){
                         $(className).click(function(e){
@@ -228,7 +234,7 @@
                 track0artist.innerHTML = data.tracks[0]['track0'].artist
 
 
-                  let track1 = document.getElementsByClassName("track1")[0];
+                let track1 = document.getElementsByClassName("track1")[0];
                 track1.src = data.tracks[0]['track1'].img;
                 let track1name = document.getElementsByClassName('track1_name')[0];
                 track1name.innerHTML = data.tracks[0]['track1'].name;
@@ -311,7 +317,7 @@
                         datasets: [{
                             label: '',
                             data: score,
-                            backgroundColor: ['#00adb5', '#013f42'],
+                            backgroundColor: ['#00adb5', '#222831'],
                  borderColor: [
                      '#333',
                  ],
@@ -329,33 +335,7 @@
          }
      });
     };
-    function setChart2(){
-        var ctx = document.getElementById("myChart1").getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Your Score', 'User Average'],
-                        datasets: [{
-                            label: '',
-                            data: tscore,
-                            backgroundColor: ['#02d9e3', '#013f42'],
-                 borderColor: [
-                     '#333',
-                 ],
-                 borderWidth: 0,
-             }]
-         },
-         options: {
-            cutoutPercentage: 60,
-            rotation: 1 * Math.PI,
-            circumference: 1 * Math.PI,
-             legend: {
-                 display: false,
-             }
-            
-         }
-     });
-    };
+    
 
     function buildLegend(){
         let legendData = '';
@@ -473,6 +453,7 @@
                         </div>
                     </div>
                 </div>
+                <h4>RUNNERS-UP</h4>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="runner-up-artist">
@@ -481,9 +462,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 artist-runner">
-                        <p class="runner-up-name">
-                        </p>
+                    <div class="col-md-12 artist-runner runner">
+                        <p class="runner-up-name">Click artist image for sample</p>
                         <a class="runner-up-preview" target="_blank" href=""><img src="/static/pages/img/play.png" alt=""></a>
                         <audio class='audio-test' src="" ></audio>
                     </div>
@@ -491,7 +471,7 @@
             </div>
         </div>
         <div class="container genres">
-                <h1>TOP GENRES</h1>
+                <h1>GENRES</h1>
                 <h2>BASED ON YOUR TOP 50 SONGS</h2>
                 <div class="underline"></div>
             <div class="row">
@@ -500,11 +480,19 @@
                             </div>
                         </div>
                 <div class="col-md-6">
+                    <div class="unique-genres hidden">
+                        <p>Top 15</p>
+                        <p><span class="unique-val"></span> genres discovered</p>
+                    </div>
                     <canvas id="myChart" width="300" height="300">
                     </canvas>
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="chart-description"><span>O</span>ut of your top 50 songs, these are the 15 genre tags that appeared most often. Click on the genre tags for addition information about each genre. <span class="note">Note: some genres do not have additional information</span>.</p>
+                </div>
+            </div>
          </div>
          <div class="container tracks">
                 <h1>TOP SONGS</h1>
@@ -529,7 +517,7 @@
                     </div>
                     <div class="artist-info">
                         <h3 class="track1_name artist_name"></h3>
-                        <h4 class="track_artist artist_genre">Open in Spotify</h4>
+                        <h4 class="track_artist artist_genre"></h4>
                         <p class="popularity">Popularity: <span class="track1_popularity pop-value"></span></p>
                         <a class="artist-preview tp2 paused" href=""></a>
                     </div>
@@ -541,13 +529,14 @@
                     </div>
                     <div class="artist-info">
                         <h3 class="track2_name artist_name"></h3>
-                        <h4 class="track_artist artist_genre">Open in Spotify</h4>
+                        <h4 class="track_artist artist_genre"></h4>
                         <p class="popularity">Popularity: <span class="track2_popularity pop-value"></span></p>
                         <a class="artist-preview tp3 paused" href=""></a>
                     </div>
                   
                 </div>
             </div>
+            <h4>RUNNERS-UP</h4>
             <div class="row">
                 <div class="col-md-12">
                     <div class="runner-up-track">
@@ -556,10 +545,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="track-up-name">
+                <div class="col-md-12 track-runner runner">
+                    <div class="track-up-name"><p>Click song image for sample</p>
                     </div>
-                    <a class="track-up-preview" target="_blank" href=""></a>
+                    <a class="track-up-preview" target="_blank" href=""><img src="/static/pages/img/play.png" alt=""></a>
                 </div>
             </div>
           
@@ -590,7 +579,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <p class="chart-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In bibendum ligula eget diam semper molestie. Praesent sit amet orci justo. Pellentesque et efficitur mi. Quisque faucibus vehicula purus eu pulvinar. Donec eget venenatis dolor. Maecenas in facilisis metus. Duis luctus velit eu tortor bibendum, non lacinia odio dignissim.</p>
+                    <p class="chart-description"><span>Y</span>our score is determined by the popularity value of the songs or artists in your <span class="note">top 50 songs</span>. A score higher than the average means your songs and artists are more popular than the average user on this platform. A lower score means your songs and artists are less popular.</p>
                 </div>
             </div>
         </div>

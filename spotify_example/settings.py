@@ -24,7 +24,9 @@ SECRET_KEY = 'j25i=m998or!g-!uuyu+w_*9we!_bw-ciut1k=s4%=np7ebrwz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'djangospotify-dev.us-west-2.elasticbeanstalk.com'
+]
 
 # Application definition
 

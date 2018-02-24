@@ -25,8 +25,10 @@ SECRET_KEY = 'j25i=m998or!g-!uuyu+w_*9we!_bw-ciut1k=s4%=np7ebrwz'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'djangospotify-dev.us-west-2.elasticbeanstalk.com'
+    'djangospotify-dev.us-west-2.elasticbeanstalk.com',
+    'localhost'
 ]
+
 
 # Application definition
 

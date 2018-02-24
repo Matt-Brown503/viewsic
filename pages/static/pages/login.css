@@ -31,21 +31,19 @@
 }
 
 .header a {
-    border: 1px solid;
     padding: 10px;
-    border-radius: 45px;
     text-decoration: none;
-    color: #fff;
-    background-color: rgba(0, 0, 0, .5);
+    color: #eee;
+    background-color: #222831;
     transition: .5s;
 }
 
 .header a:hover {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: #222831;
     transition: .5s;
 }
 .header form {
-    padding-right: 50px;
+    
 }
 
 .bg-faded {

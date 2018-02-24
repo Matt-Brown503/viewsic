@@ -43,6 +43,8 @@ def update_user_info(user_data, request):
     request.user.save()
 
 def save_tracks(data, user, artist):
+    
+
     track, created = Track.objects.update_or_create(
     name = data['name'],
     artist = artist,
@@ -50,7 +52,7 @@ def save_tracks(data, user, artist):
     track_id = data['id'],
     album_art = data['album']['images'][1]['url'],
     track_url = data['external_urls']['spotify'],
-    preview_url=data['preview_url'],
+    preview_url=data['preview_url'] or '',
     defaults={
         'popularity': data['popularity']
         }
@@ -267,7 +269,7 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 5:
+    if not difference or difference.seconds > 6000:
         
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data

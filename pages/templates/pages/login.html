@@ -12,12 +12,11 @@
   <div class="container">
     <div class="header">
       <h1>YOUR MUSIC VISUALIZED</h1>
-      <p>Viewsic uses your Spotify library to visualize your taste
-          in music with charts and graphs</p>
+      <p>See what your most played songs look like visualized in charts, scores, and top lists. Using your Spotify library, Viewsic uses your most played songs to generate information about your most played songs. As well as compare those scores to other uses who have logged in.</p>
         <form method="post">
           {% csrf_token %}
           <a href="{% url 'social:begin' 'spotify' %}">Login with Spotify</a>
-          <a href="#">See Example</a>
+          <!-- <a href="#">See Example</a> -->
         </form>      
     </div>
   </div>

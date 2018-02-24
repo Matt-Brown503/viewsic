@@ -52,7 +52,7 @@ def save_tracks(data, user, artist):
     track_id = data['id'],
     album_art = data['album']['images'][1]['url'],
     track_url = data['external_urls']['spotify'],
-    preview_url=data['preview_url'] or '',
+    preview_url=data['preview_url'] or '#',
     defaults={
         'popularity': data['popularity']
         }
@@ -92,7 +92,7 @@ def update_artist(data, genre):
     name=data['name'],
     defaults={
         'artist_img': data['images'][1]['url'],
-        'popularity': data['popularity'],
+        'popularity': data['popularity'] or 0,
         }
     )
     artist.genre.add(genre)
@@ -107,7 +107,7 @@ def update_artist_no_genre(data):
     name=data['name'],
     defaults={
         'artist_img': userimg,
-        'popularity': data['popularity'],
+        'popularity': data['popularity'] or 0,
         }
     )
 
@@ -192,7 +192,7 @@ def track_avg(data):
         try:
             total += int(trackid.track.popularity)
         except ValueError:
-            pass
+             total += 0
     total = total // len(data)
     print('track avg:')
     return total
@@ -200,7 +200,10 @@ def track_avg(data):
 def artist_avg(data):
     total = 0
     for trackid in data: 
-        total += int(trackid.track.artist.popularity)
+        try:
+            total += int(trackid.track.artist.popularity)
+        except ValueError:
+            total += 0
     total = total // len(data)
     print('artist avg:')
     print(total)
@@ -208,8 +211,11 @@ def artist_avg(data):
 
 def danceability_avg(data):
     total = 0
-    for trackid in data: 
-        total += float(trackid.track.danceability)
+    for trackid in data:
+        try:
+            total += float(trackid.track.danceability)
+        except ValueError:
+            total += 0
     
     total = total / len(data)
     print('dance avg:')
@@ -218,8 +224,11 @@ def danceability_avg(data):
 
 def valence_avg(data):
     total = 0
-    for trackid in data: 
-        total += float(trackid.track.valence)
+    for trackid in data:
+        try:
+            total += float(trackid.track.valence)
+        except ValueError:
+            total += 0
     total = total / len(data)
     print('valence avg:')
     print(total)
@@ -235,27 +244,39 @@ def update_user_avg(data, request):
 def all_user_track_avg(data):
     total = 0
     for user in data:
-        total += int(user.track_score)
+        try:
+            total += int(user.track_score)
+        except ValueError:
+            total += 0
     total = total // len(data)
     return total
 
 def all_user_artist_avg(data):
     total = 0
     for user in data:
-        total += int(user.artist_score)
+        try:
+            total += int(user.artist_score)
+        except ValueError:
+            total += 0
     total = total // len(data)
     return total
 def all_user_dance_score(data):
             total = 0
             for user in data:
-                total += float(user.dance_score)
+                try:
+                    total += float(user.dance_score)
+                except ValueError:
+                    total += 0
             total = total / len(data)
             return total
         
 def all_user_valence_score(data):
     total = 0
     for user in data:
-        total += float(user.valence_score)
+        try:
+            total += float(user.valence_score)
+        except ValueError:
+            total += 0
     total = total / len(data)
     return total
 

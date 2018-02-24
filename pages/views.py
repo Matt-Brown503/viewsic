@@ -188,8 +188,11 @@ def collect_track_info(data):
 
 def track_avg(data):
     total = 0
-    for trackid in data: 
-        total += int(trackid.track.popularity)
+    for trackid in data:
+        try:
+            total += int(trackid.track.popularity)
+        except ValueError:
+            pass
     total = total // len(data)
     print('track avg:')
     return total

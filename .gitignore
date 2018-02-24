@@ -2,6 +2,10 @@
 
 /env
 
+*.pyc
+
+__pycache__
+
 # Elastic Beanstalk Files
 
 .elasticbeanstalk/*

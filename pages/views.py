@@ -73,9 +73,9 @@ def update_track(data):
     track, created = Track.objects.update_or_create(
 track_id=data['id'],
 defaults={
-    'danceability': data['danceability'],
-    'valence': data['valence'],
-    'duration': data['duration_ms'],
+    'danceability': data['danceability'] or 0,
+    'valence': data['valence'] or 0,
+    'duration': data['duration_ms'] or 0,
     }
 )
 
@@ -91,7 +91,7 @@ def update_artist(data, genre):
     artist, created = Artist.objects.update_or_create(
     name=data['name'],
     defaults={
-        'artist_img': data['images'][1]['url'],
+        'artist_img': data['images'][0]['url'],
         'popularity': data['popularity'] or 0,
         }
     )
@@ -320,11 +320,8 @@ def profile(request):
         for trackid in all_user_tracks:
             track_info.append(trackid.track.track_id)
             artist_info.append(trackid.track.artist.artist_id)
-            # print(trackid.track.artist.name)
-            # print('artist info appended')
-           
             
-            #updates artist info and genre info
+        #updates artist info and genre info
         myset = list(set(artist_info))
         a_data = sp.artists(myset)
         for content in a_data['artists']:
@@ -332,7 +329,7 @@ def profile(request):
                 genre = make_genre(entry)
                 update_artist(content,genre)
             update_artist_no_genre(content)
-            # print('genre info added to artist')
+      
 
         track_details = sp.audio_features(track_info)
         for song in track_details:
@@ -345,8 +342,8 @@ def profile(request):
     return render(request, 'pages/profile.html',)
 
 
-def after_sign_in(request):
-    return render(request, 'pages/sign-in.html',)
+# def after_sign_in(request):
+#     return render(request, 'pages/sign-in.html',)
 
 class ChartData(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)

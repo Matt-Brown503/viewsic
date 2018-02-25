@@ -112,62 +112,66 @@
 
                 document.getElementsByClassName('user-valence')[0].innerHTML = valence_score
                 document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score
+                
+                setChart()
+                popChart(tscore,'myChart1')
+                popChart(ascore,'myChart2')
+                $('.artist-info').addClass(' load');
+                buildLegend()
 
-                $('.user-danceability').each(function () {
-                    $(this).prop('Counter',0).animate({
-                        Counter: $(this).text()
-                    }, {
-                        duration: 1500,
-                        easing: 'linear',
-                        step: function (now) {
-                            $(this).text((now).toFixed(1));
-                        }
-                    });
-                });
+                // $('.user-danceability').each(function () {
+                //     $(this).prop('Counter',0).animate({
+                //         Counter: $(this).text()
+                //     }, {
+                //         duration: 1500,
+                //         easing: 'linear',
+                //         step: function (now) {
+                //             $(this).text((now).toFixed(1));
+                //         }
+                //     });
+                // });
 
-                $('.user-valence').each(function () {
-                    $(this).prop('Counter',0).animate({
-                        Counter: $(this).text()
-                    }, {
-                        duration: 1500,
-                        easing: 'linear',
-                        step: function (now) {
-                            $(this).text((now).toFixed(1));
-                        }
-                    });
-                });
+                // $('.user-valence').each(function () {
+                //     $(this).prop('Counter',0).animate({
+                //         Counter: $(this).text()
+                //     }, {
+                //         duration: 1500,
+                //         easing: 'linear',
+                //         step: function (now) {
+                //             $(this).text((now).toFixed(1));
+                //         }
+                //     });
+                // });
             
 
 
-                $('.artist-info').addClass(' load');
-
-                buildLegend()
                 
-                $('.legend-item').click(function(event) {
-                    console.log('clicked')
-                    var text = $(event.target).text();
-                    submit(text)
-                });
+                
+                // $('.legend-item').click(function(event) {
+                //     console.log('clicked')
+                //     var text = $(event.target).text();
+                //     submit(text)
+                // });
 
-                $(window).scroll(function(){
-                    let scrollY = $(window).scrollTop() + $(window).height()
-                    if (scrollY > $('.genres').position().top + $('.genres').outerHeight()
-                     && !$('#myChart').hasClass('loaded')){
-                        setChart()
-                        $('#myChart').addClass('loaded')
-                        $('.legend-item').addClass('revealed')
-                        $('.unique-genres').addClass('revealed')
-                    }
-                })
-                $(window).scroll(function(){
-                    let scrollY = $(window).scrollTop() + $(window).height()
-                    if (scrollY > $('.pop').position().top + $('.pop').outerHeight()
-                     && !$('#myChart1').hasClass('loaded')){
-                        popChart(tscore,'myChart1')
-                        popChart(ascore,'myChart2')
-                        $('#myChart1').addClass('loaded')
-                    }
-                })
+                // $(window).scroll(function(){
+                //     let scrollY = $(window).scrollTop() + $(window).height()
+                //     if (scrollY > $('.genres').position().top + $('.genres').outerHeight()
+                //      && !$('#myChart').hasClass('loaded')){
+                        
+                //         $('#myChart').addClass('loaded')
+                //         $('.legend-item').addClass('revealed')
+                //         $('.unique-genres').addClass('revealed')
+                //     }
+                // })
+                // $(window).scroll(function(){
+                //     let scrollY = $(window).scrollTop() + $(window).height()
+                //     if (scrollY > $('.pop').position().top + $('.pop').outerHeight()
+                //      && !$('#myChart1').hasClass('loaded')){
+                        
+                //         $('#myChart1').addClass('loaded')
+                //     }
+                // })
+                
     
                 document.getElementById('user-track-pop').innerHTML = data.track_score
                 document.getElementById('all-track-pop').innerHTML = data.track_avg

@@ -211,6 +211,14 @@ h2 {
     .info {
         color: $white;
         font-size: 1.2rem;
+        text-align: center;
+    }
+    p .avg {
+        font-size: 1.2rem;
+        margin: 0;
+        padding: 0;
+        color: $accent-color;
+
     }
 
     .col-md-6 {
@@ -224,6 +232,7 @@ h2 {
     }
     p:first-of-type {
         text-align: center;
+        margin: 0;
     }
     p {
         color: $white;
@@ -231,12 +240,11 @@ h2 {
     span {
         color: $accent-color;
         font-size: 5rem;
-
     }
     
-    p::first-letter { 
-        color: $accent-color;
-    }
+    // p::first-letter { 
+    //     color: $accent-color;
+    // }
 
 
 }

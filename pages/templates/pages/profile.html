@@ -27,11 +27,25 @@
                 tscore.push(data.track_avg)
                 ascore.push(data.artist_score)
                 ascore.push(data.artist_avg)
-                dance_score += data.dance_score*10
-                valence_score += data.valence_score*10
+                dance_score = (data.dance_score*100).toFixed(1)
+                valence_score = (data.valence_score*100).toFixed(1)
                 $('.unique-val').text(data.genre_score)
-                dance_avg += data.dance_avg*10
-                valence_avg += data.valence_avg*10
+                dance_avg = (data.dance_avg*100).toFixed(1)
+                valence_avg = (data.valence_avg*100).toFixed(1)
+
+
+                
+                if (dance_score > dance_avg) {
+                  $('.dance-avg').text('you score is above the user average ('+ dance_avg +'%)')  
+                } else {
+                    $('.dance-avg').text('you score is below the user average ('+ dance_avg +'%)')   
+                }
+
+                if (valence_score > valence_avg) {
+                  $('.valence-avg').text('you score is above the user average ('+ valence_avg +'%)')  
+                } else {
+                    $('.valence-avg').text('you score is below the user average ('+ valence_avg +'%)')   
+                }
                 
                 aDataString = ''
                 count = 0
@@ -107,11 +121,8 @@
                   })
 
 
-                danceability = (data.danceability*10).toFixed(1)
-                valence = (data.valence*10).toFixed(1)
-
-                document.getElementsByClassName('user-valence')[0].innerHTML = valence_score
-                document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score
+                document.getElementsByClassName('user-valence')[0].innerHTML = valence_score + '%'
+                document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score + '%'
                 
                 setChart()
                 popChart(tscore,'myChart1')
@@ -345,7 +356,7 @@
         let legendData = '';
         let trans = [.9,.85,.8,.75,.7,.65,.6,.55,.5,.45,.4,.35,.3,.25,.2,.15,.1,]
         for (i=0;i<labels.length;i++){
-            legendData += '<li class="legend-item hidden" data-toggle="modal" data-target="#exampleModal" style="transition: '+trans[i]+'s; background-color:' + colors[i] + '">' + labels[i] + '</li>';
+            legendData += '<li class="legend-item" data-toggle="modal" data-target="#exampleModal" style="transition: '+trans[i]+'s; background-color:' + colors[i] + '">' + labels[i] + '</li>';
         }
         let ulData = '<ul>'+legendData+'</ul>';
         document.getElementById('chart-legend-0').innerHTML = ulData
@@ -484,7 +495,7 @@
                             </div>
                         </div>
                 <div class="col-md-6">
-                    <div class="unique-genres hidden">
+                    <div class="unique-genres">
                         <p>Top 15</p>
                         <p><span class="unique-val"></span> genres discovered</p>
                     </div>
@@ -595,14 +606,16 @@
                 <div class="col-md-6">
                     <img src="/static/pages/img/happy.png" alt="">
                     <div class="info">
-                        <p class=""><span class="user-valence"></span>/10</p>
+                        <p class=""><span class="user-valence"></span></p>
+                        <p class=""><span class="valence-avg avg">50%</span></p>
                         <p>Songs with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <img src="/static/pages/img/dance.png" alt="">
                     <div class="info">
-                        <p class=""><span class="user-danceability"></span>/10</p>
+                        <p class=""><span class="user-danceability"></span></p>
+                        <p class=""><span class="dance-avg avg">50%</span></p>
                         <p>How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
                     </div>
                 </div>

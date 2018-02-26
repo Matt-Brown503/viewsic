@@ -149,7 +149,13 @@ h2 {
 
 .totals .info {
   color: #EEEEEE;
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+  text-align: center; }
+.totals p .avg {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+  color: #00ADB5; }
 .totals .col-md-6 {
   display: flex;
   flex-direction: column;
@@ -157,14 +163,13 @@ h2 {
 .totals img {
   max-width: 60%; }
 .totals p:first-of-type {
-  text-align: center; }
+  text-align: center;
+  margin: 0; }
 .totals p {
   color: #EEEEEE; }
 .totals span {
   color: #00ADB5;
   font-size: 5rem; }
-.totals p::first-letter {
-  color: #00ADB5; }
 
 .chart-description {
   font-size: 1.5rem;

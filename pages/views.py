@@ -26,18 +26,18 @@ def home(request):
 
 
 def update_user_info(user_data, request):
-    # try:
-    #     userimg = user_data['images'][0]['url']
-    # except IndexError:
-    #     userimg = ''
+    try:
+        userimg = user_data['images'][0]['url']
+    except IndexError:
+        userimg = 'http://via.placeholder.com/300x300'
     
-    # try:
-    #     display_name = user_data['display_name']
-    # except IntegrityError:
-    #     display_name = user_data['id']
+    try:
+        display_name = user_data['display_name']
+    except IntegrityError:
+        display_name = user_data['id']
 
-    request.user.username = user_data['display_name'] or user_data['id']
-    request.user.user_img = user_data['images'][0]['url'] or 'http://via.placeholder.com/300x300'
+    request.user.username = display_name
+    request.user.user_img = userimg 
     request.user.user_id = user_data['id']
     request.user.birthdate = user_data['birthdate']
     request.user.save()
@@ -73,9 +73,9 @@ def update_track(data):
     track, created = Track.objects.update_or_create(
 track_id=data['id'],
 defaults={
-    'danceability': data['danceability'] or 0,
-    'valence': data['valence'] or 0,
-    'duration': data['duration_ms'] or 0,
+    'danceability': data['danceability'],
+    'valence': data['valence'],
+    'duration': data['duration_ms']
     }
 )
 
@@ -92,7 +92,7 @@ def update_artist(data, genre):
     name=data['name'],
     defaults={
         'artist_img': data['images'][0]['url'],
-        'popularity': data['popularity'] or 0,
+        'popularity': data['popularity'],
         }
     )
     artist.genre.add(genre)
@@ -107,7 +107,7 @@ def update_artist_no_genre(data):
     name=data['name'],
     defaults={
         'artist_img': userimg,
-        'popularity': data['popularity'] or 0,
+        'popularity': data['popularity'],
         }
     )
 

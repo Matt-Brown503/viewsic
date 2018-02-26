@@ -1,12 +1,18 @@
 #user_img {
-  max-width: 45px;
-  border-radius: 50px; }
+  max-width: 45px; }
 
-h1, h2, h4 {
+.navbar-brand {
+  font-family: "Fjalla One"; }
+  .navbar-brand span {
+    font-family: "Montserrat"; }
+
+h1 {
+  color: #EEEEEE;
+  font-family: "Fjalla One"; }
+
+h2, h3, h4 {
+  font-size: 1.8rem;
   color: #EEEEEE; }
-
-h2 {
-  font-size: 1.8rem; }
 
 .underline {
   width: 100px;
@@ -59,11 +65,11 @@ h2 {
   opacity: 1; }
 
 .artist_name {
+  font-family: "Fjalla One";
   background: #222831;
   padding: 10px;
   display: inline-block;
   color: #EEEEEE;
-  font-weight: 700;
   font-size: 18px;
   margin-bottom: 0px;
   min-width: 289px;
@@ -172,6 +178,7 @@ h2 {
   font-size: 5rem; }
 
 .chart-description {
+  font-family: "Montserrat";
   font-size: 1.5rem;
   color: #EEEEEE; }
   .chart-description span {
@@ -293,7 +300,6 @@ h2 {
     padding: 10px;
     display: inline-block;
     color: #eeeeee;
-    font-weight: 700;
     font-size: 16px;
     margin-bottom: 0px;
     min-width: 207px;
@@ -334,7 +340,6 @@ h2 {
     max-width: 100%; }
 
   .artist_name {
-    font-weight: 700;
     font-size: 16px;
     margin-bottom: 0px;
     min-width: 215px;
@@ -349,10 +354,10 @@ h2 {
       max-width: 3rem; } }
 @media only screen and (max-width: 766px) {
   .unique-genres {
-    left: 105px;
-    top: 110px;
+    left: 100px;
+    top: 105px;
     font-size: 1rem; } }
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 360px) {
   .unique-genres {
     left: 91px;
     top: 96px;

@@ -35,18 +35,23 @@
     text-decoration: none;
     color: #eee;
     background-color: #222831;
-    transition: .5s;
 }
 
 .header a:hover {
-    background-color: #222831;
-    transition: .5s;
+    background-color: #00ADB5;
+    transition: .3s;
 }
-.header form {
-    
+
+.header a:active {
+    color: #00ADB5;
+    background-color: #eee;
 }
+
 
 .bg-faded {
     background-color: transparent;
 }
 
+.navbar-brand {
+    font-family: 'Fjalla One';
+}

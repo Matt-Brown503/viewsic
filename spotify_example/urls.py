@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', p_views.home, name='home'),
     path('oauth/', include('social_django.urls', namespace='social')),
-    path('login/', auth_views.login, {'template_name': 'pages/login.html'}, name='login'),
+    path('home/', auth_views.login, {'template_name': 'pages/login.html'}, name='login'),
     path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
     path('api/chart/data/', p_views.ChartData.as_view()),
     path('profile/', p_views.profile, name='profile'),

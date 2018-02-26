@@ -3,19 +3,29 @@ $secondary-color: #393E46;
 $accent-color: #00ADB5;
 $white: #EEEEEE;
 
-
+$heading: 'Fjalla One';
+$text-font: 'Montserrat';
 $description-text: 1.5rem;
 
 #user_img {
     max-width: 45px;
-    border-radius: 50px;
-}
-h1, h2, h4 {
-    color: $white;
 }
 
-h2 {
+.navbar-brand {
+    font-family: $heading;
+    span {
+        font-family: $text-font;
+    }
+}
+h1, {
+    color: $white;
+    font-family: $heading;
+}
+
+
+h2, h3, h4 {
     font-size: 1.8rem;
+    color: $white;
 }
 
 .underline {
@@ -72,11 +82,11 @@ h2 {
 }
 
 .artist_name {
+    font-family: $heading;
     background: $primary-color;
     padding: 10px;
     display: inline-block;
     color: $white;
-    font-weight: 700;
     font-size: 18px;
     margin-bottom: 0px;
     min-width: 289px;
@@ -250,6 +260,7 @@ h2 {
 }
 
 .chart-description {
+    font-family: $text-font;
     font-size: 1.5rem;
     color: $white;
     p{
@@ -419,7 +430,6 @@ h2 {
         padding: 10px;
         display: inline-block;
         color: #eeeeee;
-        font-weight: 700;
         font-size: 16px;
         margin-bottom: 0px;
         min-width: 207px;
@@ -477,7 +487,6 @@ h2 {
         max-width: 100%;
     }
     .artist_name {
-        font-weight: 700;
         font-size: 16px;
         margin-bottom: 0px;
         min-width: 215px;
@@ -499,19 +508,19 @@ h2 {
 }
 @media only screen and (max-width: 766px) {
 .unique-genres {
-    left: 105px;
-    top: 110px;
+    left: 100px;
+    top: 105px;
     font-size: 1rem;
     }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 360px) {
     .unique-genres {
         left: 91px;
         top: 96px;
         font-size: 1rem;
     }
-    }
+}
 
 
 

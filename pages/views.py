@@ -19,7 +19,7 @@ from colour import Color
 
 
 
-@login_required(login_url='login/')
+@login_required(login_url='home/')
 
 def home(request):
     return render(request, 'pages/profile.html')

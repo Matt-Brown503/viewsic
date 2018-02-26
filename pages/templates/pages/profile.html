@@ -130,6 +130,12 @@
                 $('.artist-info').addClass(' load');
                 buildLegend()
 
+                $('.legend-item').click(function(event) {
+                    console.log('clicked')
+                    var text = $(event.target).text();
+                    submit(text)
+                });
+
                 // $('.user-danceability').each(function () {
                 //     $(this).prop('Counter',0).animate({
                 //         Counter: $(this).text()
@@ -158,11 +164,7 @@
 
                 
                 
-                // $('.legend-item').click(function(event) {
-                //     console.log('clicked')
-                //     var text = $(event.target).text();
-                //     submit(text)
-                // });
+               
 
                 // $(window).scroll(function(){
                 //     let scrollY = $(window).scrollTop() + $(window).height()

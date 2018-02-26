@@ -258,7 +258,8 @@ h2 {
   .pop .col-md-6 {
     display: flex;
     align-items: center;
-    flex-direction: column; }
+    flex-direction: column;
+    height: 425px; }
   .pop h3 {
     position: absolute;
     border-bottom: 3px solid #00ADB5;
@@ -266,18 +267,16 @@ h2 {
     color: #EEEEEE; }
 
 .user-t-pop span, .user-a-pop span {
-  color: #00ADB5;
-  font-weight: 700; }
+  color: #00ADB5; }
 
 .all-a-pop span, .all-t-pop span {
-  color: #222831;
-  font-weight: 700; }
+  color: #393E46; }
 
 .pop-info {
   position: absolute;
   top: 300px;
   color: #EEEEEE;
-  font-size: 26px; }
+  font-size: 28px; }
   .pop-info p {
     margin: 0; }
 
@@ -325,7 +324,10 @@ h2 {
   .unique-genres {
     left: 95px;
     top: 100px;
-    font-size: 1rem; } }
+    font-size: 1rem; }
+
+  .pop .col-md-6 {
+    height: auto; } }
 @media only screen and (max-width: 767px) {
   .container {
     width: 380px;
@@ -349,6 +351,11 @@ h2 {
   .unique-genres {
     left: 105px;
     top: 110px;
+    font-size: 1rem; } }
+@media only screen and (max-width: 640px) {
+  .unique-genres {
+    left: 91px;
+    top: 96px;
     font-size: 1rem; } }
 
 /*# sourceMappingURL=profile.css.map */

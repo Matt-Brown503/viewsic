@@ -366,6 +366,7 @@ h2 {
         display: flex;
         align-items: center;
         flex-direction: column;
+        height: 425px;
     }
     h3 {
         position: absolute;
@@ -380,14 +381,13 @@ h2 {
 .user-t-pop, .user-a-pop {
     span {
         color: $accent-color;
-        font-weight: 700;
     }
     
 }
 .all-a-pop, .all-t-pop {
+    
     span {
-        color: $primary-color;
-        font-weight: 700;
+        color: $secondary-color;
     }
 }
 
@@ -397,7 +397,7 @@ h2 {
     position: absolute;
     top: 300px;
     color: $white;
-    font-size: 26px;
+    font-size: 28px;
     p {
         margin: 0;
     }
@@ -464,6 +464,11 @@ h2 {
         top: 100px;
         font-size: 1rem;
     }
+    .pop {
+        .col-md-6 {
+            height: auto;
+        }
+    }
 
 }
 @media only screen and (max-width: 767px) {
@@ -490,6 +495,7 @@ h2 {
             max-width: 3rem;
         }
     }
+    
 }
 @media only screen and (max-width: 766px) {
 .unique-genres {
@@ -498,6 +504,14 @@ h2 {
     font-size: 1rem;
     }
 }
+
+@media only screen and (max-width: 640px) {
+    .unique-genres {
+        left: 91px;
+        top: 96px;
+        font-size: 1rem;
+    }
+    }
 
 
 

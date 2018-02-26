@@ -352,7 +352,13 @@ class ChartData(APIView):
 
     def get(self, request, format=None):
         data = request.user.tracks.all()
-        allusers = User.objects.all()
+        allusers = []
+        users = User.objects.all()
+        for user in users:
+            if user.is_superuser:
+                pass
+            else:
+                allusers.append(user)
         update_user_avg(data, request)
 
         

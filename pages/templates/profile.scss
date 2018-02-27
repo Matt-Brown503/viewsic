@@ -310,7 +310,7 @@ h2, h3, h4 {
     .legend-item { 
         list-style-type: none;
         padding: 5px;
-        margin: 2px;
+        margin: 5px;
         font-size: 25px;
         border: 2px solid transparent;
         transition: .5s;
@@ -520,7 +520,11 @@ h2, h3, h4 {
         top: 96px;
         font-size: 1rem;
     }
+    #chart-legend-0 {
+        ul {
+            justify-content: center;
+        }
+    }
+
 }
-
-
 

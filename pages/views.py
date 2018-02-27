@@ -31,11 +31,12 @@ def update_user_info(user_data, request):
     except IndexError:
         userimg = 'http://via.placeholder.com/300x300'
     
-    try:
+    if user_data['display_name'] is not None:
         display_name = user_data['display_name']
-    except IntegrityError:
+    else:
         display_name = user_data['id']
-
+        request.user.first_name = display_name
+        
     request.user.username = display_name
     request.user.user_img = userimg 
     request.user.user_id = user_data['id']
@@ -293,7 +294,7 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 6000:
+    if not difference or difference.seconds > 10:
         
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data

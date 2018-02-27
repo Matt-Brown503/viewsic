@@ -359,7 +359,7 @@
         let legendData = '';
         let trans = [.9,.85,.8,.75,.7,.65,.6,.55,.5,.45,.4,.35,.3,.25,.2,.15,.1,]
         for (i=0;i<labels.length;i++){
-            legendData += '<li class="legend-item" data-toggle="modal" data-target="#exampleModal" style="transition: '+trans[i]+'s; background-color:' + colors[i] + '">' + labels[i] + '</li>';
+            legendData += '<li class="legend-item" data-toggle="modal" data-target="#genreModal" style="transition: '+trans[i]+'s; background-color:' + colors[i] + '">' + labels[i] + '</li>';
         }
         let ulData = '<ul>'+legendData+'</ul>';
         document.getElementById('chart-legend-0').innerHTML = ulData
@@ -374,6 +374,8 @@
             userinput += 'pop music'
         }else if (text === 'rock') {
             userinput += 'rock music'
+        }else if (text === 'christmas' || text === 'indie christmas') {
+            userinput += 'christmas music'
         }else if (text === 'r&b'){
             userinput += 'rhythm and blues'
         }else {
@@ -413,7 +415,7 @@
                         $('#external').html('')
                     }
                 }
-                $('#exampleModalLabel').html(text)
+                $('#genreModalLabel').html(text)
                 $('#results').html(results);
                 
             }
@@ -625,12 +627,12 @@
                 </div>
             </div>   
     </div>      
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Genre Modal -->
+      <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="genreModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <h5 class="modal-title" id="genreModalLabel"></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -639,7 +641,7 @@
               ...
             </div>
             <div class="modal-footer">
-                    <a id="external" target="_blank" href=""></a>
+                    <a id="external" target="_blank" href='' data-toggle="modal" data-target="#about"</a>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>

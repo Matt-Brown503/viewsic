@@ -294,7 +294,7 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 10:
+    if not difference or difference.seconds > 3600:
         
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data
@@ -308,7 +308,7 @@ def profile(request):
         user_info = sp.current_user()
         
         update_user_info(user_info, request)
-        print('Library of: {} Email: {} External: {}'.format(user_info['display_name'], user_info['email'], user_info['external_urls']['spotify']))
+        # print('Library of: {} Email: {} External: {}'.format(user_info['display_name'], user_info['email'], user_info['external_urls']['spotify']))
         
         for data in user_top['items']:
             artist = save_artist(data)
@@ -361,10 +361,6 @@ class ChartData(APIView):
             else:
                 allusers.append(user)
         update_user_avg(data, request)
-
-        
-        
-     
 
         page_data = {
             'artists': [collect_top_artists(data)],

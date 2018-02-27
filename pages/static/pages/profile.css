@@ -115,6 +115,8 @@ h2, h3, h4 {
     width: 125px;
     height: 125px;
     margin: 5px; }
+    .runner-up-artist img:hover {
+      cursor: pointer; }
 
 .runner {
   display: flex;
@@ -143,6 +145,9 @@ h2, h3, h4 {
     width: 125px;
     height: 125px;
     margin: 5px; }
+    .runner-up-track img:hover {
+      cursor: pointer;
+      filter: opacity(70%); }
 
 .popularity {
   background: #393E46;

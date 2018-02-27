@@ -132,6 +132,7 @@
 
                 $('.legend-item').click(function(event) {
                     console.log('clicked')
+                    $('#external').html('')
                     var text = $(event.target).text();
                     submit(text)
                 });
@@ -200,7 +201,7 @@
                 let artistname = document.getElementsByClassName('artist0_name')[0];
                 artistname.innerHTML = data.artists[0]['artist0'].name;
                 let artistpop = document.getElementsByClassName('artist0_popularity')[0];
-                artistpop.innerHTML = data.artists[0]['artist0'].popularity;
+                artistpop.innerHTML = data.artists[0]['artist0'].popularity +'%';
                 let artistgenre = document.getElementsByClassName('artist_genre')[0];
                 artistgenre.innerHTML = data.artists[0]['artist0'].genre[0];
 
@@ -210,7 +211,7 @@
                 let artist1name = document.getElementsByClassName('artist1_name')[0];
                 artist1name.innerHTML = data.artists[0]['artist1'].name;
                 let artist1pop = document.getElementsByClassName('artist1_popularity')[0];
-                artist1pop.innerHTML = data.artists[0]['artist1'].popularity;
+                artist1pop.innerHTML = data.artists[0]['artist1'].popularity +'%';
                 let artistgenre1 = document.getElementsByClassName('artist_genre')[1];
                 artistgenre1.innerHTML = data.artists[0]['artist1'].genre[0]
             
@@ -220,7 +221,7 @@
                 let artist2name = document.getElementsByClassName('artist2_name')[0];
                 artist2name.innerHTML = data.artists[0]['artist2'].name;
                 let artist2pop = document.getElementsByClassName('artist2_popularity')[0];
-                artist2pop.innerHTML = data.artists[0]['artist2'].popularity;
+                artist2pop.innerHTML = data.artists[0]['artist2'].popularity +'%';
                 let artistgenre2 = document.getElementsByClassName('artist_genre')[2];
                 artistgenre2.innerHTML = data.artists[0]['artist2'].genre[0]
 
@@ -246,7 +247,7 @@
                 let track0name = document.getElementsByClassName('track0_name')[0];
                 track0name.innerHTML = data.tracks[0]['track0'].name;
                 let track0pop = document.getElementsByClassName('track0_popularity')[0];
-                track0pop.innerHTML = data.tracks[0]['track0'].popularity;
+                track0pop.innerHTML = data.tracks[0]['track0'].popularity +'%';
                 let track0artist = document.getElementsByClassName('track_artist')[0];
                 track0artist.innerHTML = data.tracks[0]['track0'].artist
 
@@ -256,7 +257,7 @@
                 let track1name = document.getElementsByClassName('track1_name')[0];
                 track1name.innerHTML = data.tracks[0]['track1'].name;
                 let track1pop = document.getElementsByClassName('track1_popularity')[0];
-                track1pop.innerHTML = data.tracks[0]['track1'].popularity;
+                track1pop.innerHTML = data.tracks[0]['track1'].popularity +'%';
                 let track1artist = document.getElementsByClassName('track_artist')[1];
                 track1artist.innerHTML = data.tracks[0]['track1'].artist
                
@@ -266,7 +267,7 @@
                 let track2name = document.getElementsByClassName('track2_name')[0];
                 track2name.innerHTML = data.tracks[0]['track2'].name;
                 let track2pop = document.getElementsByClassName('track2_popularity')[0];
-                track2pop.innerHTML = data.tracks[0]['track2'].popularity;
+                track2pop.innerHTML = data.tracks[0]['track2'].popularity +'%';
                 let track2artist = document.getElementsByClassName('track_artist')[2];
                 track2artist.innerHTML = data.tracks[0]['track2'].artist
 
@@ -379,6 +380,7 @@
             userinput += text
         }
         var wikiAPI = 'https://en.wikipedia.org/w/api.php?action=opensearch&search='+userinput+'&limit=5&namespace=0&format=json&callback=?';
+        let blank = ''
         $.ajax({
             type:"GET",
             url:wikiAPI,
@@ -390,7 +392,7 @@
                 for (i=0;i<data[2].length;i++){
                     if (data[2][i].length === 0) {
                         results = 'No information available for this genre.'
-                        $('#external').attr('href', external);
+                        $('#external').attr('href', blank);
                         $('#external').html('')
                     }
                     else if (data[2][i].includes('music') === true || data[2][i].includes('genre') === true){
@@ -407,7 +409,7 @@
                         $('#external').html('Learn More')
                         break
                     }else {
-                        $('#external').attr('href', external);
+                        $('#external').attr('href', blank);
                         $('#external').html('')
                     }
                 }
@@ -480,7 +482,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 artist-runner runner">
-                        <p class="runner-up-name">Click artist image for sample</p>
+                        <p class="runner-up-name">Click artist for audio sample</p>
                         <a class="runner-up-preview" target="_blank" href=""><img src="/static/pages/img/play.png" alt=""></a>
                         <audio class='audio-test' src="" ></audio>
                     </div>
@@ -563,7 +565,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 track-runner runner">
-                    <div class="track-up-name"><p>Click song image for sample</p>
+                    <div class="track-up-name"><p>Click song for audio sample</p>
                     </div>
                     <a class="track-up-preview" target="_blank" href=""><img src="/static/pages/img/play.png" alt=""></a>
                 </div>
@@ -610,7 +612,7 @@
                     <div class="info">
                         <p class=""><span class="user-valence"></span></p>
                         <p class=""><span class="valence-avg avg">50%</span></p>
-                        <p>Songs with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
+                        <p>HAPPINESS: Songs with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -618,7 +620,7 @@
                     <div class="info">
                         <p class=""><span class="user-danceability"></span></p>
                         <p class=""><span class="dance-avg avg">50%</span></p>
-                        <p>How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
+                        <p>DANCEABILITY: How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
                     </div>
                 </div>
             </div>   

@@ -360,6 +360,7 @@ class ChartData(APIView):
                 pass
             else:
                 allusers.append(user)
+
         update_user_avg(data, request)
 
         page_data = {
@@ -374,6 +375,6 @@ class ChartData(APIView):
             'dance_avg': all_user_dance_score(allusers),
             'valence_score': request.user.valence_score,
             'valence_avg': all_user_valence_score(allusers),
-            'genre_score': request.user.genre_count       
+            'genre_score': request.user.genre_count  
         }
         return Response(page_data)

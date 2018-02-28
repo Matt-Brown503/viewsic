@@ -14,6 +14,7 @@ class User(AbstractUser):
     dance_score = models.CharField(max_length=255)
     valence_score = models.CharField(max_length=255)
     genre_count = models.CharField(max_length=255)
+    energy_score = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Track(models.Model):
@@ -28,6 +29,7 @@ class Track(models.Model):
     danceability = models.CharField(max_length=255)
     valence = models.CharField(max_length=255)
     duration = models.CharField(max_length=255)
+    energy = models.CharField(max_length=255, null=True, blank=True)
 
 class Genre(models.Model):
     genre = models.CharField(max_length=255)

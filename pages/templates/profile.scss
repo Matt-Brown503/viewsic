@@ -217,10 +217,11 @@ h2, h3, h4 {
 
     }
 
-    .col-md-6 {
+    .col-md-4 {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     img {
@@ -321,8 +322,14 @@ h2, h3, h4 {
         font-size: 3rem;
         margin: 0;
     } 
+    p {
+        margin: 0;
+    }
     span {
         color: $accent-color;
+    }
+    .g-user-avg {
+        opacity: .3;
     }
 }
 
@@ -384,7 +391,7 @@ h2, h3, h4 {
 .all-a-pop, .all-t-pop {
     
     span {
-        color: $secondary-color;
+        color: #244a63;
     }
 }
 

@@ -168,10 +168,11 @@ h2, h3, h4 {
   margin: 0;
   padding: 0;
   color: #00ADB5; }
-.totals .col-md-6 {
+.totals .col-md-4 {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  justify-content: center; }
 .totals img {
   max-width: 60%; }
 .totals p:first-of-type {
@@ -238,8 +239,12 @@ h2, h3, h4 {
   .unique-genres p:first-child {
     font-size: 3rem;
     margin: 0; }
+  .unique-genres p {
+    margin: 0; }
   .unique-genres span {
     color: #00ADB5; }
+  .unique-genres .g-user-avg {
+    opacity: .3; }
 
 .modal-open {
   overflow: auto;
@@ -283,7 +288,7 @@ h2, h3, h4 {
   color: #00ADB5; }
 
 .all-a-pop span, .all-t-pop span {
-  color: #393E46; }
+  color: #244a63; }
 
 .pop-info {
   position: absolute;

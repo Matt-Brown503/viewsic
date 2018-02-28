@@ -76,7 +76,8 @@ track_id=data['id'],
 defaults={
     'danceability': data['danceability'],
     'valence': data['valence'],
-    'duration': data['duration_ms']
+    'duration': data['duration_ms'],
+    'energy': data['energy']
     }
 )
 
@@ -235,50 +236,95 @@ def valence_avg(data):
     print(total)
     return total
 
+def energy_avg(data):
+    total = 0
+    for trackid in data:
+        try:
+            total += float(trackid.track.energy)
+        except ValueError:
+            total += 0
+    total = total / len(data)
+    print('energy avg:')
+    print(total)
+    return total
+
 def update_user_avg(data, request):
     request.user.track_score = track_avg(data)
     request.user.artist_score = artist_avg(data)
     request.user.dance_score = danceability_avg(data)
     request.user.valence_score = valence_avg(data)
+    request.user.energy_score = energy_avg(data)
     request.user.save()
 
 def all_user_track_avg(data):
     total = 0
+    missed = 0
     for user in data:
         try:
             total += int(user.track_score)
         except ValueError:
-            total += 0
-    total = total // len(data)
+            missed += 1
+            pass
+    total = total // (len(data)-missed)
     return total
 
 def all_user_artist_avg(data):
     total = 0
+    missed = 0
     for user in data:
         try:
             total += int(user.artist_score)
         except ValueError:
-            total += 0
-    total = total // len(data)
+            missed += 1
+            pass
+    total = total // (len(data)-missed)
     return total
 def all_user_dance_score(data):
-            total = 0
-            for user in data:
-                try:
-                    total += float(user.dance_score)
-                except ValueError:
-                    total += 0
-            total = total / len(data)
-            return total
+    total = 0
+    missed = 0
+    for user in data:
+        try:
+            total += float(user.dance_score)
+        except ValueError:
+            missed += 1
+            pass
+    total = total / (len(data)-missed)
+    return total
         
 def all_user_valence_score(data):
     total = 0
+    missed = 0
     for user in data:
         try:
             total += float(user.valence_score)
         except ValueError:
-            total += 0
-    total = total / len(data)
+            missed += 1
+            pass
+    total = total / (len(data)-missed)
+    return total
+
+def all_user_energy_score(data):
+    total = 0
+    missed = 0
+    for user in data:
+        try:
+            total += float(user.energy_score)
+        except (ValueError, TypeError) as error:
+            missed += 1
+            pass
+    total = total / (len(data)-missed)
+    return total
+
+def all_user_genre_avg(data):
+    total = 0
+    missed = 0
+    for user in data:
+        try:
+            total += int(user.genre_count)
+        except ValueError:
+            missed += 1
+            pass
+    total = total // (len(data)-missed)
     return total
 
 def profile(request):
@@ -294,8 +340,8 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 3600:
-        
+    if not difference or difference.seconds > 10:
+        # 3600
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data
 
@@ -375,6 +421,9 @@ class ChartData(APIView):
             'dance_avg': all_user_dance_score(allusers),
             'valence_score': request.user.valence_score,
             'valence_avg': all_user_valence_score(allusers),
-            'genre_score': request.user.genre_count  
+            'genre_score': request.user.genre_count,
+            'genre_avg': all_user_genre_avg(allusers),
+            'energy_score': request.user.energy_score,
+            'energy_avg': all_user_energy_score(allusers)
         }
         return Response(page_data)

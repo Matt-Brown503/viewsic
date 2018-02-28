@@ -14,6 +14,8 @@
         var valence_score = 0
         var dance_avg = 0
         var valence_avg = 0
+        var energy_score = 0
+        var energy_avg = 0
         $.ajax({
             type: "GET",
             url: endpoint,
@@ -30,10 +32,15 @@
                 dance_score = (data.dance_score*100).toFixed(1)
                 valence_score = (data.valence_score*100).toFixed(1)
                 $('.unique-val').text(data.genre_score)
+                $('.genre-avg').text(data.genre_avg)
                 dance_avg = (data.dance_avg*100).toFixed(1)
                 valence_avg = (data.valence_avg*100).toFixed(1)
+                energy_avg = (data.energy_avg*100).toFixed(1)
+                energy_score = (data.energy_score*100).toFixed(1)
 
-
+                document.getElementsByClassName('user-valence')[0].innerHTML = valence_score + '%'
+                document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score + '%'
+                document.getElementsByClassName('user-energy')[0].innerHTML = energy_score + '%'
                 
                 if (dance_score > dance_avg) {
                   $('.dance-avg').text('Your score is above the user average ('+ dance_avg +'%)')  
@@ -46,6 +53,12 @@
                 } else {
                     $('.valence-avg').text('Your score is below the user average ('+ valence_avg +'%)')   
                 }
+                if (energy_score > energy_avg) {
+                  $('.energy-avg').text('Your score is above the user average ('+ energy_avg +'%)')  
+                } else {
+                    $('.energy-avg').text('Your score is below the user average ('+ energy_avg +'%)')   
+                }
+
                 
                 aDataString = ''
                 count = 0
@@ -121,9 +134,8 @@
                   })
 
 
-                document.getElementsByClassName('user-valence')[0].innerHTML = valence_score + '%'
-                document.getElementsByClassName('user-danceability')[0].innerHTML = dance_score + '%'
-                
+
+            
                 setChart()
                 popChart(tscore,'myChart1')
                 popChart(ascore,'myChart2')
@@ -335,7 +347,7 @@
                         datasets: [{
                             label: '',
                             data: score,
-                            backgroundColor: ['#00adb5', '#222831'],
+                            backgroundColor: ['#00adb5', '#244a63'],
                  borderColor: [
                      '#333',
                  ],
@@ -515,6 +527,7 @@
                     <div class="unique-genres">
                         <p>Top 15</p>
                         <p><span class="unique-val"></span> genres discovered</p>
+                        <p class='g-user-avg'><span class="genre-avg">55</span> discovery average</p>
                     </div>
                     <canvas id="myChart" width="300" height="300">
                     </canvas>
@@ -617,18 +630,18 @@
         </div>
         <div class="container totals">
                 <h1>OVERALL</h1>
-                <h2>HAPPINESS AND DANCEABILITY</h2>
+                <h2>HAPPINESS DANCEABILITY ENERGY</h2>
                 <div class="underline"></div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <img src="/static/pages/img/happy.png" alt="">
                     <div class="info">
                         <p class=""><span class="user-valence"></span></p>
                         <p class=""><span class="valence-avg avg">50%</span></p>
-                        <p>HAPPINESS: Songs with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
+                        <p>HAPPINESS: Songs with high valence sound more positive (e.g. happy, cheerful), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <img src="/static/pages/img/dance.png" alt="">
                     <div class="info">
                         <p class=""><span class="user-danceability"></span></p>
@@ -636,6 +649,14 @@
                         <p>DANCEABILITY: How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.</p>
                     </div>
                 </div>
+                <div class="col-md-4">
+                        <img src="/static/pages/img/energy.png" alt="">
+                        <div class="info">
+                            <p class=""><span class="user-energy"></span></p>
+                            <p class=""><span class="energy-avg avg">50%<span>-4</span></span></p>
+                            <p>ENERGY: Represents a measure of intensity. Energetic tracks are, loud, and noisy. For example, death metal has high energy, while a Bach scores low on the scale.</p>
+                        </div>
+                    </div>
             </div>   
     </div>      
       <!-- Genre Modal -->

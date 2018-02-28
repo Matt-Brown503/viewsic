@@ -15,14 +15,14 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from colour import Color
+from urllib3.exceptions import HTTPError
 
 
 
 
-@login_required(login_url='home/')
-
+@login_required(login_url='/home/')
 def home(request):
-    return render(request, 'pages/profile.html')
+    return HttpResponseRedirect('/profile/')
 
 
 def update_user_info(user_data, request):
@@ -327,6 +327,7 @@ def all_user_genre_avg(data):
     total = total // (len(data)-missed)
     return total
 
+@login_required(login_url='/home/')
 def profile(request):
     print(request.user.username)
     
@@ -348,9 +349,11 @@ def profile(request):
         try:
             sp = spotipy.Spotify(auth=token['access_token'])
         except spotipy.client.SpotifyException:
-            redirect('/')
-
-        user_top = sp.current_user_top_tracks(limit=50, time_range='long_term')
+            return HttpResponseRedirect('/')
+        try:
+            user_top = sp.current_user_top_tracks(limit=50, time_range='long_term')
+        except spotipy.client.SpotifyException:
+            return HttpResponseRedirect('/')
         user_info = sp.current_user()
         
         update_user_info(user_info, request)
@@ -388,9 +391,6 @@ def profile(request):
 
     return render(request, 'pages/profile.html',)
 
-
-# def after_sign_in(request):
-#     return render(request, 'pages/sign-in.html',)
 
 class ChartData(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)

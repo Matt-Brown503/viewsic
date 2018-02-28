@@ -82,6 +82,7 @@ WSGI_APPLICATION = 'spotify_example.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 if 'RDS_DB_NAME' in os.environ:
+    DEBUG = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',

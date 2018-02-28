@@ -41,7 +41,7 @@ h2, h3, h4 {
   opacity: 1; }
 
 .bg-faded {
-  background-color: #fff; }
+  background-color: #EEEEEE; }
 
 .top-artists {
   padding: 50px 0px; }
@@ -82,7 +82,7 @@ h2, h3, h4 {
   position: absolute;
   left: 60px;
   font-size: 18px;
-  color: #393e46; }
+  color: #393E46; }
 
 .artist-info {
   position: absolute;
@@ -206,10 +206,6 @@ h2, h3, h4 {
 
 .paused {
   background-color: #00ADB5; }
-
-.playing {
-  background-color: #860505;
-  background-image: url("/static/pages/img/pause.png"); }
 
 #chart-legend-0 ul {
   padding: 0;

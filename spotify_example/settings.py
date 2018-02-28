@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from spotify_example import keys
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j25i=m998or!g-!uuyu+w_*9we!_bw-ciut1k=s4%=np7ebrwz'
+SECRET_KEY = os.environ.get('SECRET_KEY', keys.secret_key)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -159,6 +159,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = 'profile'
 AUTH_USER_MODEL = 'pages.User'
 
-SOCIAL_AUTH_SPOTIFY_KEY = 'b7bcf47cb6f246deae87280dc75f530d'
-SOCIAL_AUTH_SPOTIFY_SECRET = '7286c24d1a6e4d0d8e74f6846532318d'
+SOCIAL_AUTH_SPOTIFY_KEY = os.environ.get('SPOTIFY_KEY', keys.spotify_key)
+SOCIAL_AUTH_SPOTIFY_SECRET = os.environ.get('SPOTIFY_SECRET', keys.spotify_secret)
 SOCIAL_AUTH_SPOTIFY_SCOPE = ['user-top-read user-read-birthdate user-read-email']

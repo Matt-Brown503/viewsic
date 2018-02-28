@@ -2,6 +2,8 @@ $primary-color: #222831;
 $secondary-color: #393E46;
 $accent-color: #00ADB5;
 $white: #EEEEEE;
+$chart-text: #c2e0e1;
+$pop-avg-color: #244a63;
 
 $heading: 'Fjalla One';
 $text-font: 'Montserrat';
@@ -55,7 +57,7 @@ h2, h3, h4 {
     opacity: 1; 
 }
 .bg-faded {
-    background-color: #fff;
+    background-color: $white;
 }
 .top-artists{
     padding: 50px 0px
@@ -100,7 +102,7 @@ h2, h3, h4 {
     position: absolute;
     left: 60px;
     font-size: 18px;
-    color: #393e46;
+    color: $secondary-color;
 }
 
 .artist-info {
@@ -159,15 +161,12 @@ h2, h3, h4 {
     flex-direction: row;
     p {
         margin: 0;
-        // background: #393e46;
-        // width: 400px;
         padding: 10px;
-        // font-weight: 700;
+  
     }
     img {
         max-width: 60px;
         padding: 10px;
-        // background: #00adb5;
     }
 }
 
@@ -283,16 +282,12 @@ h2, h3, h4 {
     ;
 }
 
-.playing {
-    background-color: #860505;
-    background-image: url('/static/pages/img/pause.png');
-}
 #chart-legend-0 {
     ul {
         padding: 0;
         display: flex;
         flex-wrap: wrap;
-        color: #c2e0e1;
+        color: $chart-text;
     }
     .legend-item { 
         list-style-type: none;
@@ -391,7 +386,7 @@ h2, h3, h4 {
 .all-a-pop, .all-t-pop {
     
     span {
-        color: #244a63;
+        color: $pop-avg-color;
     }
 }
 

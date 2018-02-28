@@ -55,3 +55,7 @@
 .navbar-brand {
     font-family: 'Fjalla One';
 }
+
+.modal-content {
+    border-radius: 0px;
+}

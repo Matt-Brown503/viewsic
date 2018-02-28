@@ -3,9 +3,9 @@
 /env
 
 *.pyc
-
+keys.py
 __pycache__
-
+createsu.py
 # Elastic Beanstalk Files
 
 .elasticbeanstalk/*

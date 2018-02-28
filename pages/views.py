@@ -341,8 +341,8 @@ def profile(request):
         difference = None
 
     print('older than 5 minutes')
-    if not difference or difference.seconds > 10:
-        # 3600
+    if not difference or difference.seconds > 86400:
+        # 86400
         all_user_tracks = request.user.tracks.all()
         token = request.user.social_auth.all()[0].extra_data
 
@@ -357,7 +357,6 @@ def profile(request):
         user_info = sp.current_user()
         
         update_user_info(user_info, request)
-        # print('Library of: {} Email: {} External: {}'.format(user_info['display_name'], user_info['email'], user_info['external_urls']['spotify']))
         
         for data in user_top['items']:
             artist = save_artist(data)

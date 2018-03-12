@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-from spotify_example import keys
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -18,8 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', keys.secret_key)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -95,6 +94,7 @@ if 'RDS_DB_NAME' in os.environ:
     }
 
 else: 
+    from spotify_example import keys
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -105,6 +105,9 @@ else:
         'PORT': '',
     }
 }
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY', keys.secret_key)
 
 # DATABASES = {
 #     'default': {

@@ -142,7 +142,7 @@
 
                 $('.legend-item').click(function(event) {
                     console.log('clicked')
-                    $('#external').html('')
+                    // $('#external').html('')
                     var text = $(event.target).text();
                     submit(text)
                 });
@@ -415,25 +415,25 @@
                 for (i=0;i<data[2].length;i++){
                     if (data[2][i].length === 0) {
                         results = 'No information available for this genre.'
-                        $('#external').attr('href', blank);
-                        $('#external').html('')
+                        // $('#external').attr('href', blank);
+                        // $('#external').html('')
                     }
                     else if (data[2][i].includes('music') === true || data[2][i].includes('genre') === true){
                         results = data[2][i]
                         external = data[3][i]
-                        $('#external').attr('href', external);
-                        $('#external').html('Learn More')
+                        // $('#external').attr('href', external);
+                        // $('#external').html('Learn More')
                         break
 
                     }else if (data[2][i].includes('style') === true || data[2][i].includes('radio') === true){
                         results = data[2][i]
                         external = data[3][i]
-                        $('#external').attr('href', external);
-                        $('#external').html('Learn More')
+                        // $('#external').attr('href', external);
+                        // $('#external').html('Learn More')
                         break
                     }else {
-                        $('#external').attr('href', blank);
-                        $('#external').html('')
+                        // $('#external').attr('href', blank);
+                        // $('#external').html('')
                     }
                 }
                 $('#genreModalLabel').html(text)
@@ -670,10 +670,10 @@
             <div class="modal-body" id="results">
               ...
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                     <a id="external" target="_blank" href='' data-toggle="modal" data-target="#about"</a>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            </div> -->
           </div>
         </div>
     </div>
